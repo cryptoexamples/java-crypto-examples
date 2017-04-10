@@ -21,6 +21,16 @@ import javax.crypto.spec.SecretKeySpec;
 
 // TODO check if byte arrays need to be replaced by somthing like byteSource (deletion of content)
 
+/**
+ * Object oriented example for encryption and decryption of a string;
+ * Including
+ * - random password generation,
+ * - random salt generation,
+ * - key derivation using PBKDF2 HMAC SHA-256,
+ * - AES-256 authenticated encryption using GCM
+ * - BASE64-encoding for the byte-arrays
+ * - exception handling
+ */
 public class AESStringEncryptionOO {
 
   public static void main(String[] args) {
@@ -73,7 +83,6 @@ public class AESStringEncryptionOO {
 
     Decoder b64Decoder = Base64.getDecoder();
 
-    // DECRYPTION using key (derived from password and salt) and spec (including nonce)
     cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
     byte[] decryptedCipher = cipher.doFinal(b64Decoder.decode(cipherText));

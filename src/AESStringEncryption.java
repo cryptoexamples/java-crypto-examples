@@ -18,13 +18,23 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+// TODO check if byte arrays need to be replaced by somthing like byteSource (deletion of content)
+
+/**
+ * All in one example for encryption and decryption of a string in one method;
+ * Including
+ * - random password generation,
+ * - random salt generation,
+ * - key derivation using PBKDF2 HMAC SHA-256,
+ * - AES-256 authenticated encryption using GCM
+ * - BASE64-encoding for the byte-arrays
+ * - exception handling
+ */
 public class AESStringEncryption {
 
   public static void main(String[] args) {
     String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
-
     try {
-
       // generate password, if you have one save it in `password`
       KeyGenerator keyGen = KeyGenerator.getInstance("AES");
       // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
@@ -55,7 +65,6 @@ public class AESStringEncryption {
       Encoder b64Encoder = Base64.getEncoder();
       String cipherText = new String(b64Encoder.encode(byteCipher));
 
-
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
       //cipher.updateAAD(aad);
       byte[] decryptedCipher = cipher.doFinal(byteCipher);
@@ -63,30 +72,7 @@ public class AESStringEncryption {
 
       System.out.println("Decrypted and original plain text are the same: " + ((decryptedCipherString.compareTo(plainText))==0 ? "true" : "false"));
 
-    } catch (NoSuchAlgorithmException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-      return;
-    } catch (NoSuchPaddingException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-      return;
-    } catch (InvalidKeyException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-      return;
-    } catch (IllegalBlockSizeException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-      return;
-    } catch (BadPaddingException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-      return;
-    } catch (InvalidAlgorithmParameterException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-    } catch (InvalidKeySpecException e) {
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
