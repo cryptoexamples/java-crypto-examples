@@ -19,7 +19,7 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-// TODO check if byte arrays need to be replaced by somthing like byteSource (deletion of content)
+// TODO check if byte arrays need to be replaced by something like byteSource (deletion of content)
 
 /**
  * Object oriented example for encryption and decryption of a string;
