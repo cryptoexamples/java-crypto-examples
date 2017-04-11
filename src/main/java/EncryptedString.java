@@ -1,4 +1,9 @@
-import javax.crypto.*;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,7 +24,6 @@ import java.util.Base64;
  * - key derivation using PBKDF2 HMAC SHA-256,
  * - AES-256 authenticated encryption using GCM
  * - BASE64-encoding for the byte-arrays
- * - exception handling
  */
 public class EncryptedString implements Serializable {
   public int GCM_AUTHENTICATION_TAG_SIZE_BITS = 128;
