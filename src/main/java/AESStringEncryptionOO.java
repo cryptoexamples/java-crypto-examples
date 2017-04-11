@@ -5,8 +5,6 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
-import java.util.Base64.Decoder;
-import java.util.Base64.Encoder;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -66,8 +64,7 @@ public class AESStringEncryptionOO {
 
     byte[] byteCipher = cipher.doFinal(plainText.getBytes());
 
-    Encoder b64Encoder = Base64.getEncoder();
-    return new String(b64Encoder.encode(byteCipher));
+    return new String(Base64.getEncoder().encode(byteCipher));
   }
 
   public static String decrypt(String cipherText, String password, byte[] salt, byte[] nonce) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
@@ -81,11 +78,9 @@ public class AESStringEncryptionOO {
     Cipher cipher = Cipher.getInstance("AES/GCM/PKCS5Padding");
     GCMParameterSpec spec = new GCMParameterSpec(16 * 8, nonce);
 
-    Decoder b64Decoder = Base64.getDecoder();
-
     cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
-    byte[] decryptedCipher = cipher.doFinal(b64Decoder.decode(cipherText));
+    byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
     return new String(decryptedCipher);
   }
 
