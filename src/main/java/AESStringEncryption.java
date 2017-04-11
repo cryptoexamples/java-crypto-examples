@@ -51,7 +51,7 @@ public class AESStringEncryption {
       SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
 
       // GENERATE random nonce (number used once)
-      final byte[] nonce = new byte[12];
+      final byte[] nonce = new byte[32];
       random.nextBytes(nonce);
 
       // ENCRYPTION
