@@ -34,32 +34,38 @@ public class AESStringEncryption {
   public static void main(String[] args) {
     String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
     try {
-      // generate password, if you have one save it in `password`
+      // GENERATE password
       KeyGenerator keyGen = KeyGenerator.getInstance("AES");
       // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       keyGen.init(256);
       String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
 
+      // GENERATE random salt
       final byte[] salt = new byte[12];
       SecureRandom random = SecureRandom.getInstanceStrong();
       random.nextBytes(salt);
-      /* Derive the key, given password and salt. */
+
+      // DERIVE key (from password and salt)
       SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
       // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
       SecretKey tmp = factory.generateSecret(keyspec);
       SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
 
-      Cipher cipher = Cipher.getInstance("AES/GCM/PKCS5Padding");
+      // GENERATE random nonce (number used once)
       final byte[] nonce = new byte[12];
       random.nextBytes(nonce);
+
+      // ENCRYPTION
+      Cipher cipher = Cipher.getInstance("AES/GCM/PKCS5Padding");
       GCMParameterSpec spec = new GCMParameterSpec(16 * 8, nonce);
       cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
-      //byte[] aad = "Whatever I like".getBytes();
+      //byte[] aad = "Additional authenticated not encrypted data".getBytes();
       //cipher.updateAAD(aad);
 
       byte[] byteCipher = cipher.doFinal(plainText.getBytes());
+      // CONVERSION of raw bytes to BASE64 representation
       String cipherText = new String(Base64.getEncoder().encode(byteCipher));
 
       // DECRYPTION
@@ -69,7 +75,6 @@ public class AESStringEncryption {
       String decryptedCipherString = new String(decryptedCipher);
 
       System.out.println("Decrypted and original plain text are the same: " + ((decryptedCipherString.compareTo(plainText))==0 ? "true" : "false"));
-
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
