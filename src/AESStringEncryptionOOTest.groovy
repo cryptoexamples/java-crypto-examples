@@ -22,18 +22,22 @@ class AESStringEncryptionOOTest extends groovy.util.GroovyTestCase {
   }
 
   void testEncrypt() {
-
+    assertTrue(false);
   }
 
   void testDecrypt() {
+    assertTrue(false);
   }
 
   void testGeneratePassword() {
+    assertTrue(false);
   }
 
   void testGenerateSalt() {
+    assertTrue(false);
   }
 
   void testGenerateNonce() {
+    assertTrue(false);
   }
 }
