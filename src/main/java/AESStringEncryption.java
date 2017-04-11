@@ -61,13 +61,12 @@ public class AESStringEncryption {
       //cipher.updateAAD(aad);
 
       byte[] byteCipher = cipher.doFinal(plainText.getBytes());
+      String cipherText = new String(Base64.getEncoder().encode(byteCipher));
 
-      Encoder b64Encoder = Base64.getEncoder();
-      String cipherText = new String(b64Encoder.encode(byteCipher));
-
+      // DECRYPTION
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
       //cipher.updateAAD(aad);
-      byte[] decryptedCipher = cipher.doFinal(byteCipher);
+      byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
       String decryptedCipherString = new String(decryptedCipher);
 
       System.out.println("Decrypted and original plain text are the same: " + ((decryptedCipherString.compareTo(plainText))==0 ? "true" : "false"));
