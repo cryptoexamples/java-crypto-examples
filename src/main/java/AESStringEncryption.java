@@ -17,8 +17,6 @@ import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
-// TODO check if byte arrays need to be replaced by something like byteSource (deletion of content)
-
 /**
  * All in one example for encryption and decryption of a string in one method;
  * Including
