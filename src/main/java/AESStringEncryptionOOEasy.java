@@ -25,12 +25,10 @@ import java.util.Base64;
 public class AESStringEncryptionOOEasy {
 
   public static void main(String[] args) {
-    AESStringEncryptionOOEasy easyAES = new AESStringEncryptionOOEasy();
-
     String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
     //String password = "givenPassword";
     try {
-      String password = EncryptedString.generatePassword(256);
+      String password = EncryptedString.generatePassword(32);
 
       // ENCRYPTION
       EncryptedString encryptedString = new EncryptedString().encrypt(plainText, password);

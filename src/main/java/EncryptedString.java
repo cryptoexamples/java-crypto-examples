@@ -13,6 +13,13 @@ import java.util.Base64;
 
 /**
  * Encapsulating class for encrypting and decrypting strings
+ * Including
+ * - random password generation,
+ * - random salt generation,
+ * - key derivation using PBKDF2 HMAC SHA-256,
+ * - AES-256 authenticated encryption using GCM
+ * - BASE64-encoding for the byte-arrays
+ * - exception handling
  */
 public class EncryptedString implements Serializable {
   public int GCM_AUTHENTICATION_TAG_SIZE_BITS = 128;
@@ -29,9 +36,9 @@ public class EncryptedString implements Serializable {
 
   /**
    * Creates a new EncryptedString object based on cipherText, nonce and salt.
-   * @param cipherText
-   * @param nonce
-   * @param salt
+   * @param cipherText encrypted plaintext (generated from encrypt)
+   * @param nonce byte array, number used once (random) see GCM_IV_NONCE_SIZE_BYTES
+   * @param salt random byte array to prevent rainbow table attacks on password lists
    */
   public EncryptedString(String cipherText, byte[] nonce, byte[] salt) {
     this.cipherText = cipherText;
@@ -60,8 +67,8 @@ public class EncryptedString implements Serializable {
 
   /**
    * Generates a randomly filled byte array
-   * @param sizeInBytes
-   * @return
+   * @param sizeInBytes length of the array in bytes
+   * @return byte array containing random values
    * @throws NoSuchAlgorithmException
    */
   public static byte[] generateRandomArry(int sizeInBytes) throws NoSuchAlgorithmException {
@@ -73,10 +80,10 @@ public class EncryptedString implements Serializable {
   }
 
   /**
-   * Encrypts the provided plainText using the provided password
-   * @param plainText
-   * @param password
-   * @return
+   * Encrypts the provided plainText using the provided password.
+   * @param plainText plaintext that should be encrypted
+   * @param password password which is used to generate the key
+   * @return new EncryptedString object
    * @throws BadPaddingException
    * @throws IllegalBlockSizeException
    * @throws InvalidAlgorithmParameterException
@@ -107,8 +114,8 @@ public class EncryptedString implements Serializable {
 
   /**
    * Decrypts the cipherText using the provided password.
-   * @param password
-   * @return
+   * @param password password which is used to generate the key
+   * @return plaintext
    * @throws NoSuchAlgorithmException
    * @throws InvalidKeySpecException
    * @throws NoSuchPaddingException
@@ -136,12 +143,12 @@ public class EncryptedString implements Serializable {
 
   /**
    * Generates a random password.
-   * @param sizeInBits
-   * @return
+   * @param sizeInBytes length of the password in byte
+   * @return Base64 encoded string with a random password
    * @throws NoSuchAlgorithmException
    */
-  public static String generatePassword(int sizeInBits) throws NoSuchAlgorithmException {
-    return Base64.getEncoder().encodeToString(generateRandomArry(sizeInBits/8));
+  public static String generatePassword(int sizeInBytes) throws NoSuchAlgorithmException {
+    return Base64.getEncoder().encodeToString(generateRandomArry(sizeInBytes));
   }
 }
 
