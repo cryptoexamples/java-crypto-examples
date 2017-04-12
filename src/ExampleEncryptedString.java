@@ -36,7 +36,7 @@ public class ExampleEncryptedString {
       String decryptedCipherText = encryptedString.decrypt(password);
 
       boolean encryptionSuccessful = decryptedCipherText.compareTo(plainText) == 0;
-      System.out.print("Decrypted and original plain text are the same: " + (encryptionSuccessful ? "true" : "false"));
+      LOGGER.info("Decrypted and original plain text are the same: " + ((decryptedCipherText.compareTo(plainText))==0 ? "true" : "false"));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
