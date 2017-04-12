@@ -21,7 +21,6 @@ dependencies {
 tasks.withType(Test) { task ->
     jacoco {
         append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
     }
 }
 
