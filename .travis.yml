@@ -2,7 +2,7 @@ language: java
 addons:
   sonarqube:
     organization: "java-crypto-examples" # the key of the org you chose at step #3
-before_script:
+before_install:
   - chmod +x gradlew
 script:
   # other script steps might be done before running the actual SonarQube analysis
