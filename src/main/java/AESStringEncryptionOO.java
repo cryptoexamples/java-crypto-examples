@@ -37,7 +37,7 @@ public class AESStringEncryptionOO {
   final static int PBKDF2_SALT_SIZE_BYTES = 32;
   final static int AES_KEY_LENGTH_BITS = 256;
 
-  public static void main(String[] args) {
+  public static void main() {
     String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
     //String password = "givenPassword";
     try {

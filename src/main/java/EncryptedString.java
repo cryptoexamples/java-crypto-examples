@@ -28,7 +28,7 @@ import java.util.Base64;
 public class EncryptedString implements Serializable {
 
   /* 128, 120, 112, 104, or 96 @see NIST Special Publication 800-38D*/
-  private final int DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS = 128; 
+  private final int DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS = 128;
   private final int DEFAULT_GCM_IV_NONCE_SIZE_BYTES = 12;
   private final int DEFAULT_PBKDF2_ITERATIONS = 65536;
   private final int DEFAULT_PBKDF2_SALT_SIZE_BYTES = 32;
