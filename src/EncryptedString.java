@@ -140,8 +140,6 @@ public class EncryptedString implements Serializable {
   public EncryptedString encrypt(String plainText, String password) throws BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
     /* Derive the key*/
     SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF2_SCHEME);
-    // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-    EncryptedString encryptedString = new EncryptedString();
     byte[] salt = generateRandomArry(PBKDF2_SALT_SIZE_BYTES);
     KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, PBKDF2_ITERATIONS, AES_KEY_LENGTH_BITS);
     SecretKey tmp = factory.generateSecret(keyspec);

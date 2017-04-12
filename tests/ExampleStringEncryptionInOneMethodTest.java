@@ -1,9 +1,15 @@
-import org.junit.jupiter.api.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 
 /**
  * Created by Kai on 10.04.2017.
@@ -12,13 +18,13 @@ public class ExampleStringEncryptionInOneMethodTest {
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-  @BeforeEach
+  @Before
   public void setUp() {
     System.setOut(new PrintStream(outContent));
     System.setErr(new PrintStream(errContent));
   }
 
-  @AfterEach
+  @After
   public void tearDown() {
     System.setOut(null);
     System.setErr(null);
@@ -27,7 +33,7 @@ public class ExampleStringEncryptionInOneMethodTest {
   @Test
   public void testMain() {
     ExampleStringEncryptionInOneMethod.main(new String[1]);
-    assertEquals("Decrypted and original plain text are the same: true", outContent.toString());
+    assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
   }
 
 }
