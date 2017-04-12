@@ -12,5 +12,5 @@ before_install:
   - chmod +x gradlew
 script:
   # other script steps might be done before running the actual SonarQube analysis
-  - ./gradle test
+  - ./gradlew test
   - sonar-scanner
