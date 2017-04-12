@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 addons:
   sonarqube:
-    organization: "java-crypto-examples" # the key of the org you chose at step #3
+    organization: "kmindi-github" # the key of the org you chose at step #3
 before_install:
   - chmod +x gradlew
 script:
