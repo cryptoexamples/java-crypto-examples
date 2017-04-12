@@ -13,4 +13,5 @@ before_install:
 script:
   # other script steps might be done before running the actual SonarQube analysis
   - ./gradlew test
+  - ./gradlew jacocoTestReport
   - sonar-scanner
