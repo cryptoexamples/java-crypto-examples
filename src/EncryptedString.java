@@ -40,14 +40,14 @@ public class EncryptedString implements Serializable {
   private static final String DEFAULT_CIPHERSCHEME = "AES/GCM/PKCS5Padding";
   private static final String DEFAULT_PBKDF2_SCHEME = "PBKDF2WithHmacSHA256";
 
-  private int GCM_AUTHENTICATION_TAG_SIZE_BITS = DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS;
-  private int GCM_IV_NONCE_SIZE_BYTES = DEFAULT_GCM_IV_NONCE_SIZE_BYTES;
-  private int PBKDF2_ITERATIONS = DEFAULT_PBKDF2_ITERATIONS;
-  private int PBKDF2_SALT_SIZE_BYTES = DEFAULT_PBKDF2_SALT_SIZE_BYTES;
-  private int AES_KEY_LENGTH_BITS = DEFAULT_AES_KEY_LENGTH_BITS;
-  private String CIPHER = DEFAULT_CIPHER;
-  private String CIPHERSCHEME = DEFAULT_CIPHERSCHEME;
-  private String PBKDF2_SCHEME = DEFAULT_PBKDF2_SCHEME;
+  private int gcmAuthenticationTagSizeBits = DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS;
+  private int gcmIvNonceSizeBytes = DEFAULT_GCM_IV_NONCE_SIZE_BYTES;
+  private int pbkdf2Iterations = DEFAULT_PBKDF2_ITERATIONS;
+  private int pbkdf2SaltSizeBytes = DEFAULT_PBKDF2_SALT_SIZE_BYTES;
+  private int aesKeyLengthBits = DEFAULT_AES_KEY_LENGTH_BITS;
+  private String cipher = DEFAULT_CIPHER;
+  private String cipherscheme = DEFAULT_CIPHERSCHEME;
+  private String pbkdf2Scheme = DEFAULT_PBKDF2_SCHEME;
 
   private byte[] nonce;
   private byte[] salt;
@@ -56,7 +56,7 @@ public class EncryptedString implements Serializable {
   /**
    * Creates a new EncryptedString object based on cipherText, nonce and salt.
    * @param cipherText encrypted plaintext (generated from encrypt)
-   * @param nonce byte array, number used once (random) see GCM_IV_NONCE_SIZE_BYTES
+   * @param nonce byte array, number used once (random) see gcmIvNonceSizeBytes
    * @param salt random byte array to prevent rainbow table attacks on password lists
    */
   public EncryptedString(String cipherText, byte[] nonce, byte[] salt) {
@@ -81,14 +81,14 @@ public class EncryptedString implements Serializable {
     this.nonce = nonce;
     this.salt = salt;
 
-    this.CIPHER = cipher;
-    this.CIPHERSCHEME = cipherscheme;
-    this.GCM_AUTHENTICATION_TAG_SIZE_BITS = gcmAuthenticationTagSizeBits;
-    this.GCM_IV_NONCE_SIZE_BYTES = gcmIvNonceSizeBytes;
-    this.PBKDF2_ITERATIONS = pbkdf2Iterations;
-    this.PBKDF2_SALT_SIZE_BYTES = pbkdf2SaltSizeBytes;
-    this.AES_KEY_LENGTH_BITS = aesKeyLengthBits;
-    this.PBKDF2_SCHEME = pbkdf2Scheme;
+    this.cipher = cipher;
+    this.cipherscheme = cipherscheme;
+    this.gcmAuthenticationTagSizeBits = gcmAuthenticationTagSizeBits;
+    this.gcmIvNonceSizeBytes = gcmIvNonceSizeBytes;
+    this.pbkdf2Iterations = pbkdf2Iterations;
+    this.pbkdf2SaltSizeBytes = pbkdf2SaltSizeBytes;
+    this.aesKeyLengthBits = aesKeyLengthBits;
+    this.pbkdf2Scheme = pbkdf2Scheme;
   }
 
   /**
@@ -139,20 +139,20 @@ public class EncryptedString implements Serializable {
    */
   public EncryptedString encrypt(String plainText, String password) throws BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
     /* Derive the key*/
-    SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF2_SCHEME);
-    byte[] newSalt = generateRandomArry(PBKDF2_SALT_SIZE_BYTES);
-    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), newSalt, PBKDF2_ITERATIONS, AES_KEY_LENGTH_BITS);
+    SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
+    byte[] newSalt = generateRandomArry(pbkdf2SaltSizeBytes);
+    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), newSalt, pbkdf2Iterations, aesKeyLengthBits);
     SecretKey tmp = factory.generateSecret(keyspec);
-    SecretKey key = new SecretKeySpec(tmp.getEncoded(), CIPHER);
+    SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    Cipher cipher = Cipher.getInstance(CIPHERSCHEME);
-    byte[] newNonce = generateRandomArry(GCM_IV_NONCE_SIZE_BYTES);
-    GCMParameterSpec spec = new GCMParameterSpec(GCM_AUTHENTICATION_TAG_SIZE_BITS, newNonce);
+    Cipher cipher = Cipher.getInstance(cipherscheme);
+    byte[] newNonce = generateRandomArry(gcmIvNonceSizeBytes);
+    GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, newNonce);
     cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
     byte[] byteCipher = cipher.doFinal(plainText.getBytes());
 
-    return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), newNonce, newSalt, CIPHER, CIPHERSCHEME, GCM_AUTHENTICATION_TAG_SIZE_BITS, GCM_IV_NONCE_SIZE_BYTES, PBKDF2_ITERATIONS, PBKDF2_SALT_SIZE_BYTES, AES_KEY_LENGTH_BITS, PBKDF2_SCHEME);
+    return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), newNonce, newSalt, this.cipher, cipherscheme, gcmAuthenticationTagSizeBits, gcmIvNonceSizeBytes, pbkdf2Iterations, pbkdf2SaltSizeBytes, aesKeyLengthBits, pbkdf2Scheme);
   }
 
   /**
@@ -169,14 +169,14 @@ public class EncryptedString implements Serializable {
    */
   public String decrypt(String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
     /* Derive the key*/
-    SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF2_SCHEME);
+    SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
     // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), getSalt(), PBKDF2_ITERATIONS, AES_KEY_LENGTH_BITS);
+    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), getSalt(), pbkdf2Iterations, aesKeyLengthBits);
     SecretKey tmp = factory.generateSecret(keyspec);
-    SecretKey key = new SecretKeySpec(tmp.getEncoded(), CIPHER);
+    SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    Cipher cipher = Cipher.getInstance(CIPHERSCHEME);
-    GCMParameterSpec spec = new GCMParameterSpec(GCM_AUTHENTICATION_TAG_SIZE_BITS, getNonce());
+    Cipher cipher = Cipher.getInstance(cipherscheme);
+    GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, getNonce());
 
     cipher.init(Cipher.DECRYPT_MODE, key, spec);
 
