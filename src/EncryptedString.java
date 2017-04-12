@@ -28,17 +28,17 @@ import java.util.Base64;
 public class EncryptedString implements Serializable {
 
   /* 128, 120, 112, 104, or 96 @see NIST Special Publication 800-38D*/
-  private final int DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS = 128;
+  private static final int DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS = 128;
 
-  private final int DEFAULT_GCM_IV_NONCE_SIZE_BYTES = 12;
-  private final int DEFAULT_PBKDF2_ITERATIONS = 65536;
-  private final int DEFAULT_PBKDF2_SALT_SIZE_BYTES = 32;
+  private static final int DEFAULT_GCM_IV_NONCE_SIZE_BYTES = 12;
+  private static final int DEFAULT_PBKDF2_ITERATIONS = 65536;
+  private static final int DEFAULT_PBKDF2_SALT_SIZE_BYTES = 32;
 
   /* @see https://www.keylength.com/ */
-  private final int DEFAULT_AES_KEY_LENGTH_BITS = 256;
-  private final String DEFAULT_CIPHER = "AES";
-  private final String DEFAULT_CIPHERSCHEME = "AES/GCM/PKCS5Padding";
-  private final String DEFAULT_PBKDF2_SCHEME = "PBKDF2WithHmacSHA256";
+  private static final int DEFAULT_AES_KEY_LENGTH_BITS = 256;
+  private static final String DEFAULT_CIPHER = "AES";
+  private static final String DEFAULT_CIPHERSCHEME = "AES/GCM/PKCS5Padding";
+  private static final String DEFAULT_PBKDF2_SCHEME = "PBKDF2WithHmacSHA256";
 
   private int GCM_AUTHENTICATION_TAG_SIZE_BITS = DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS;
   private int GCM_IV_NONCE_SIZE_BYTES = DEFAULT_GCM_IV_NONCE_SIZE_BYTES;
@@ -67,28 +67,28 @@ public class EncryptedString implements Serializable {
 
   /**
    * Initializes this EncryptedString object with the provided parameters
-   * @param CIPHER
-   * @param CIPHERSCHEME
-   * @param GCM_AUTHENTICATION_TAG_SIZE_BITS
-   * @param GCM_IV_NONCE_SIZE_BYTES
-   * @param PBKDF2_ITERATIONS
-   * @param PBKDF2_SALT_SIZE_BYTES
-   * @param AES_KEY_LENGTH_BITS
-   * @param PBKDF2_SCHEME
+   * @param cipher
+   * @param cipherscheme
+   * @param gcmAuthenticationTagSizeBits
+   * @param gcmIvNonceSizeBytes
+   * @param pbkdf2Iterations
+   * @param pbkdf2SaltSizeBytes
+   * @param aesKeyLengthBits
+   * @param pbkdf2Scheme
    */
-  private EncryptedString(String cipherText, byte[] nonce, byte[] salt, String CIPHER, String CIPHERSCHEME, int GCM_AUTHENTICATION_TAG_SIZE_BITS, int GCM_IV_NONCE_SIZE_BYTES, int PBKDF2_ITERATIONS, int PBKDF2_SALT_SIZE_BYTES, int AES_KEY_LENGTH_BITS, String PBKDF2_SCHEME) {
+  private EncryptedString(String cipherText, byte[] nonce, byte[] salt, String cipher, String cipherscheme, int gcmAuthenticationTagSizeBits, int gcmIvNonceSizeBytes, int pbkdf2Iterations, int pbkdf2SaltSizeBytes, int aesKeyLengthBits, String pbkdf2Scheme) {
     this.cipherText = cipherText;
     this.nonce = nonce;
     this.salt = salt;
 
-    this.CIPHER = CIPHER;
-    this.CIPHERSCHEME = CIPHERSCHEME;
-    this.GCM_AUTHENTICATION_TAG_SIZE_BITS = GCM_AUTHENTICATION_TAG_SIZE_BITS;
-    this.GCM_IV_NONCE_SIZE_BYTES = GCM_IV_NONCE_SIZE_BYTES;
-    this.PBKDF2_ITERATIONS = PBKDF2_ITERATIONS;
-    this.PBKDF2_SALT_SIZE_BYTES = PBKDF2_SALT_SIZE_BYTES;
-    this.AES_KEY_LENGTH_BITS = AES_KEY_LENGTH_BITS;
-    this.PBKDF2_SCHEME = PBKDF2_SCHEME;
+    this.CIPHER = cipher;
+    this.CIPHERSCHEME = cipherscheme;
+    this.GCM_AUTHENTICATION_TAG_SIZE_BITS = gcmAuthenticationTagSizeBits;
+    this.GCM_IV_NONCE_SIZE_BYTES = gcmIvNonceSizeBytes;
+    this.PBKDF2_ITERATIONS = pbkdf2Iterations;
+    this.PBKDF2_SALT_SIZE_BYTES = pbkdf2SaltSizeBytes;
+    this.AES_KEY_LENGTH_BITS = aesKeyLengthBits;
+    this.PBKDF2_SCHEME = pbkdf2Scheme;
   }
 
   /**
@@ -140,19 +140,19 @@ public class EncryptedString implements Serializable {
   public EncryptedString encrypt(String plainText, String password) throws BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
     /* Derive the key*/
     SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF2_SCHEME);
-    byte[] salt = generateRandomArry(PBKDF2_SALT_SIZE_BYTES);
-    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, PBKDF2_ITERATIONS, AES_KEY_LENGTH_BITS);
+    byte[] newSalt = generateRandomArry(PBKDF2_SALT_SIZE_BYTES);
+    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), newSalt, PBKDF2_ITERATIONS, AES_KEY_LENGTH_BITS);
     SecretKey tmp = factory.generateSecret(keyspec);
     SecretKey key = new SecretKeySpec(tmp.getEncoded(), CIPHER);
 
     Cipher cipher = Cipher.getInstance(CIPHERSCHEME);
-    byte[] nonce = generateRandomArry(GCM_IV_NONCE_SIZE_BYTES);
-    GCMParameterSpec spec = new GCMParameterSpec(GCM_AUTHENTICATION_TAG_SIZE_BITS, nonce);
+    byte[] newNonce = generateRandomArry(GCM_IV_NONCE_SIZE_BYTES);
+    GCMParameterSpec spec = new GCMParameterSpec(GCM_AUTHENTICATION_TAG_SIZE_BITS, newNonce);
     cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
     byte[] byteCipher = cipher.doFinal(plainText.getBytes());
 
-    return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), nonce, salt, CIPHER, CIPHERSCHEME, GCM_AUTHENTICATION_TAG_SIZE_BITS, GCM_IV_NONCE_SIZE_BYTES, PBKDF2_ITERATIONS, PBKDF2_SALT_SIZE_BYTES, AES_KEY_LENGTH_BITS, PBKDF2_SCHEME);
+    return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), newNonce, newSalt, CIPHER, CIPHERSCHEME, GCM_AUTHENTICATION_TAG_SIZE_BITS, GCM_IV_NONCE_SIZE_BYTES, PBKDF2_ITERATIONS, PBKDF2_SALT_SIZE_BYTES, AES_KEY_LENGTH_BITS, PBKDF2_SCHEME);
   }
 
   /**
