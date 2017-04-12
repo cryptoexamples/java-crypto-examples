@@ -62,9 +62,9 @@ public class ExampleStringEncryptionInOneMethod {
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
       //cipher.updateAAD(aad);
       byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
-      String decryptedCipherString = new String(decryptedCipher);
+      String decryptedCipherText = new String(decryptedCipher);
 
-      LOGGER.log(Level.INFO,"Decrypted and original plain text are the same: %s", (decryptedCipherString.compareTo(plainText))==0 ? "true" : "false");
+      LOGGER.log(Level.INFO,String.format("Decrypted and original plain text are the same: %s", decryptedCipherText.compareTo(plainText)==0 ? "true" : "false"));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
