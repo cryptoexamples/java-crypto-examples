@@ -145,12 +145,12 @@ public class EncryptedString implements Serializable {
     SecretKey tmp = factory.generateSecret(keyspec);
     SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    Cipher cipher = Cipher.getInstance(cipherscheme);
+    Cipher myCipher = Cipher.getInstance(cipherscheme);
     byte[] newNonce = generateRandomArry(gcmIvNonceSizeBytes);
     GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, newNonce);
-    cipher.init(Cipher.ENCRYPT_MODE, key, spec);
+    myCipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
-    byte[] byteCipher = cipher.doFinal(plainText.getBytes());
+    byte[] byteCipher = myCipher.doFinal(plainText.getBytes());
 
     return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), newNonce, newSalt, this.cipher, cipherscheme, gcmAuthenticationTagSizeBits, gcmIvNonceSizeBytes, pbkdf2Iterations, pbkdf2SaltSizeBytes, aesKeyLengthBits, pbkdf2Scheme);
   }
@@ -175,12 +175,12 @@ public class EncryptedString implements Serializable {
     SecretKey tmp = factory.generateSecret(keyspec);
     SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    Cipher cipher = Cipher.getInstance(cipherscheme);
+    Cipher myCipher = Cipher.getInstance(cipherscheme);
     GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, getNonce());
 
-    cipher.init(Cipher.DECRYPT_MODE, key, spec);
+    myCipher.init(Cipher.DECRYPT_MODE, key, spec);
 
-    byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(getCipherText()));
+    byte[] decryptedCipher = myCipher.doFinal(Base64.getDecoder().decode(getCipherText()));
     return new String(decryptedCipher);
   }
 
