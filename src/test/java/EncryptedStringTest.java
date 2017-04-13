@@ -1,13 +1,6 @@
-
 import org.junit.Test;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.security.GeneralSecurityException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -35,7 +28,7 @@ public class EncryptedStringTest {
       String testString = "Die heiße Zypernsonne quälte Max und Victoria ja böse auf dem Weg bis zur Küste";
       EncryptedString encryptedString = new EncryptedString().encrypt(testString, password);
       assertEquals(testString, encryptedString.decrypt(password));
-    } catch (NoSuchAlgorithmException | IllegalStateException e) {
+    } catch (GeneralSecurityException e) {
       assertTrue(false);
     }
   }
@@ -47,7 +40,7 @@ public class EncryptedStringTest {
       String testString = "A quick movement of the enemy will jeopardize six gunboats.";
       EncryptedString encryptedString = new EncryptedString().encrypt(testString, password);
       assertEquals(testString, encryptedString.decrypt(password));
-    } catch (NoSuchAlgorithmException | IllegalStateException e) {
+    } catch (GeneralSecurityException e) {
       assertTrue(false);
     }
   }

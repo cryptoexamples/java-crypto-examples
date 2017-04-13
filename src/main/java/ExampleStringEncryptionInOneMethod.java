@@ -20,7 +20,8 @@ import java.util.logging.Logger;
  * - exception handling
  */
 public class ExampleStringEncryptionInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger( ExampleStringEncryptionInOneMethod.class.getName() );
+  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionInOneMethod.class.getName());
+
   public static void main(String[] args) {
     String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
     try {
@@ -64,7 +65,7 @@ public class ExampleStringEncryptionInOneMethod {
       byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
       String decryptedCipherText = new String(decryptedCipher);
 
-      LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %s", decryptedCipherText.compareTo(plainText)==0 ? "true" : "false"));
+      LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %s", decryptedCipherText.compareTo(plainText) == 0 ? "true" : "false"));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
