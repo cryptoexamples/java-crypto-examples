@@ -1,3 +1,5 @@
+package com.cryptoexamples.java;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -49,7 +51,7 @@ public class EncryptedString implements Serializable {
   private String cipherText;
 
   /**
-   * Creates a new EncryptedString object based on cipherText, nonce and salt.
+   * Creates a new com.cryptoexamples.java.EncryptedString object based on cipherText, nonce and salt.
    *
    * @param cipherText encrypted plaintext (generated from encrypt)
    * @param nonce      byte array, number used once (random) see gcmIvNonceSizeBytes
@@ -62,7 +64,7 @@ public class EncryptedString implements Serializable {
   }
 
   /**
-   * Initializes this EncryptedString object with the provided parameters
+   * Initializes this com.cryptoexamples.java.EncryptedString object with the provided parameters
    *
    * @param cipher
    * @param cipherscheme
@@ -89,7 +91,7 @@ public class EncryptedString implements Serializable {
   }
 
   /**
-   * Creates a new empty EncryptedString object
+   * Creates a new empty com.cryptoexamples.java.EncryptedString object
    */
   public EncryptedString() {
     // uses default parameters, see initialization at the beginning.
@@ -138,7 +140,7 @@ public class EncryptedString implements Serializable {
    *
    * @param plainText plaintext that should be encrypted
    * @param password  password which is used to generate the key
-   * @return new EncryptedString object
+   * @return new com.cryptoexamples.java.EncryptedString object
    * @throws GeneralSecurityException
    */
   public EncryptedString encrypt(String plainText, String password) throws GeneralSecurityException {

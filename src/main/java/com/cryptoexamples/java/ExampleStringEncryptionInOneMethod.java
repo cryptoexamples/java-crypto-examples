@@ -1,3 +1,5 @@
+package com.cryptoexamples.java;
+
 import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;

@@ -1,3 +1,6 @@
+package com.cryptoexamples.java;
+
+import com.cryptoexamples.java.EncryptedString;
 import org.junit.Test;
 
 import java.security.GeneralSecurityException;
