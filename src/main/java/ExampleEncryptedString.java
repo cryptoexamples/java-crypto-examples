@@ -36,7 +36,7 @@ public class ExampleEncryptedString {
       String decryptedCipherText = encryptedString.decrypt(password);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %s", decryptedCipherText.compareTo(plainText)==0 ? "true" : "false"));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+    } catch (IllegalStateException | NoSuchAlgorithmException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
   }

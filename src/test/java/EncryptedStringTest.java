@@ -35,7 +35,7 @@ public class EncryptedStringTest {
       String testString = "Die heiße Zypernsonne quälte Max und Victoria ja böse auf dem Weg bis zur Küste";
       EncryptedString encryptedString = new EncryptedString().encrypt(testString, password);
       assertEquals(testString, encryptedString.decrypt(password));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+    } catch (NoSuchAlgorithmException | IllegalStateException e) {
       assertTrue(false);
     }
   }
@@ -47,7 +47,7 @@ public class EncryptedStringTest {
       String testString = "A quick movement of the enemy will jeopardize six gunboats.";
       EncryptedString encryptedString = new EncryptedString().encrypt(testString, password);
       assertEquals(testString, encryptedString.decrypt(password));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException e) {
+    } catch (NoSuchAlgorithmException | IllegalStateException e) {
       assertTrue(false);
     }
   }

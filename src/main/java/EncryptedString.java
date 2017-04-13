@@ -137,22 +137,27 @@ public class EncryptedString implements Serializable {
    * @throws NoSuchAlgorithmException
    * @throws InvalidKeySpecException
    */
-  public EncryptedString encrypt(String plainText, String password) throws BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException {
+  public EncryptedString encrypt(String plainText, String password) throws IllegalStateException {
     /* Derive the key*/
-    SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
-    byte[] newSalt = generateRandomArry(pbkdf2SaltSizeBytes);
-    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), newSalt, pbkdf2Iterations, aesKeyLengthBits);
-    SecretKey tmp = factory.generateSecret(keyspec);
-    SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    Cipher myCipher = Cipher.getInstance(cipherscheme);
-    byte[] newNonce = generateRandomArry(gcmIvNonceSizeBytes);
-    GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, newNonce);
-    myCipher.init(Cipher.ENCRYPT_MODE, key, spec);
+    try {
+      SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
+      byte[] newSalt = generateRandomArry(pbkdf2SaltSizeBytes);
+      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), newSalt, pbkdf2Iterations, aesKeyLengthBits);
+      SecretKey tmp = factory.generateSecret(keyspec);
+      SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    byte[] byteCipher = myCipher.doFinal(plainText.getBytes());
+      Cipher myCipher = Cipher.getInstance(cipherscheme);
+      byte[] newNonce = generateRandomArry(gcmIvNonceSizeBytes);
+      GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, newNonce);
+      myCipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
-    return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), newNonce, newSalt, this.cipher, cipherscheme, gcmAuthenticationTagSizeBits, gcmIvNonceSizeBytes, pbkdf2Iterations, pbkdf2SaltSizeBytes, aesKeyLengthBits, pbkdf2Scheme);
+      byte[] byteCipher = myCipher.doFinal(plainText.getBytes());
+
+      return new EncryptedString(new String(Base64.getEncoder().encode(byteCipher)), newNonce, newSalt, this.cipher, cipherscheme, gcmAuthenticationTagSizeBits, gcmIvNonceSizeBytes, pbkdf2Iterations, pbkdf2SaltSizeBytes, aesKeyLengthBits, pbkdf2Scheme);
+    } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | InvalidAlgorithmParameterException | BadPaddingException | IllegalBlockSizeException | InvalidKeySpecException e) {
+      throw new IllegalStateException(e.getClass().getSimpleName(), e);
+    }
   }
 
   /**
@@ -167,21 +172,26 @@ public class EncryptedString implements Serializable {
    * @throws BadPaddingException
    * @throws IllegalBlockSizeException
    */
-  public String decrypt(String password) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
-    /* Derive the key*/
-    SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
-    // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), getSalt(), pbkdf2Iterations, aesKeyLengthBits);
-    SecretKey tmp = factory.generateSecret(keyspec);
-    SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
+  public String decrypt(String password) throws IllegalStateException {
+    try {
+      /* Derive the key*/
 
-    Cipher myCipher = Cipher.getInstance(cipherscheme);
-    GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, getNonce());
+      SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
+      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
+      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), getSalt(), pbkdf2Iterations, aesKeyLengthBits);
+      SecretKey tmp = factory.generateSecret(keyspec);
+      SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
-    myCipher.init(Cipher.DECRYPT_MODE, key, spec);
+      Cipher myCipher = Cipher.getInstance(cipherscheme);
+      GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, getNonce());
 
-    byte[] decryptedCipher = myCipher.doFinal(Base64.getDecoder().decode(getCipherText()));
-    return new String(decryptedCipher);
+      myCipher.init(Cipher.DECRYPT_MODE, key, spec);
+
+      byte[] decryptedCipher = myCipher.doFinal(Base64.getDecoder().decode(getCipherText()));
+      return new String(decryptedCipher);
+    } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | InvalidAlgorithmParameterException | BadPaddingException | IllegalBlockSizeException | InvalidKeySpecException e) {
+        throw new IllegalStateException(e.getClass().getSimpleName(), e);
+    }
   }
 
   /**
