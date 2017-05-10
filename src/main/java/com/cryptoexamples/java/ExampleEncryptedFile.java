@@ -25,12 +25,14 @@ public class ExampleEncryptedFile {
     try {
       // GENERATE a password (if a password exists, use that).
       String password = EncryptedFile.generatePassword(32);
+      String path = "encryptedFile.enc";
+
 
       // ENCRYPTION
-      EncryptedFile encryptedFile = new EncryptedFile().encrypt(plainText, password);
+      new EncryptedFile().encrypt(plainText, password, path);
 
       // DECRYPTION
-      String decryptedCipherText = encryptedFile.decrypt(password);
+      String decryptedCipherText = new EncryptedFile().decrypt(password, path);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %s", decryptedCipherText.compareTo(plainText) == 0 ? "true" : "false"));
     } catch (GeneralSecurityException e) {
