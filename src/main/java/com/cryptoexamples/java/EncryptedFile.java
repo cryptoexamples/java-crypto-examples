@@ -190,9 +190,7 @@ public class EncryptedFile implements Serializable {
     }
 
     // TODO trim() should not be needed!
-    String decryptedCipherText = stringBuilder.toString().trim();
-
-    return new String(decryptedCipherText);
+    return stringBuilder.toString().trim();
   }
 }
 
