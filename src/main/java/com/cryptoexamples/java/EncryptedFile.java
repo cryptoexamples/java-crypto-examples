@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * - random salt generation,
  * - key derivation using PBKDF2 HMAC SHA-256,
  * - AES-256 authenticated encryption using GCM
- * - BASE64-encoding for the byte-arrays
+ * - UTF-8 encoding
  * // TODO store all encryption parameters (as authenticated data) prepended to the file content
  * // TODO use Cryptographic Message Snytax (https://tools.ietf.org/html/rfc5652)
  */
@@ -51,53 +51,6 @@ public class EncryptedFile implements Serializable {
   private String cipher = DEFAULT_CIPHER;
   private String cipherscheme = DEFAULT_CIPHERSCHEME;
   private String pbkdf2Scheme = DEFAULT_PBKDF2_SCHEME;
-
-  private byte[] nonce;
-  private byte[] salt;
-  private String cipherText;
-  private String path;
-
-  /**
-   * Creates a new EncryptedFile object based on cipherText, nonce and salt.
-   *
-   * @param cipherText encrypted plaintext (generated from encrypt)
-   * @param nonce      byte array, number used once (random) see gcmIvNonceSizeBytes
-   * @param salt       random byte array to prevent rainbow table attacks on password lists
-   */
-  public EncryptedFile(String cipherText, String path, byte[] nonce, byte[] salt) {
-    this.cipherText = cipherText;
-    this.nonce = nonce;
-    this.salt = salt;
-    this.path = path;
-  }
-
-  /**
-   * Initializes this EncryptedFile object with the provided parameters
-   *
-   * @param cipher
-   * @param cipherscheme
-   * @param gcmAuthenticationTagSizeBits
-   * @param gcmIvNonceSizeBytes
-   * @param pbkdf2Iterations
-   * @param pbkdf2SaltSizeBytes
-   * @param aesKeyLengthBits
-   * @param pbkdf2Scheme
-   */
-  private EncryptedFile(String cipherText, String path, byte[] nonce, byte[] salt, String cipher, String cipherscheme, int gcmAuthenticationTagSizeBits, int gcmIvNonceSizeBytes, int pbkdf2Iterations, int pbkdf2SaltSizeBytes, int aesKeyLengthBits, String pbkdf2Scheme) {
-    this.cipherText = cipherText;
-    this.nonce = nonce;
-    this.salt = salt;
-    this.path = path;
-
-    this.cipher = cipher;
-    this.cipherscheme = cipherscheme;
-    this.gcmAuthenticationTagSizeBits = gcmAuthenticationTagSizeBits;
-    this.gcmIvNonceSizeBytes = gcmIvNonceSizeBytes;
-    this.pbkdf2Iterations = pbkdf2Iterations;
-    this.pbkdf2SaltSizeBytes = pbkdf2SaltSizeBytes;
-    this.aesKeyLengthBits = aesKeyLengthBits;
-    this.pbkdf2Scheme = pbkdf2Scheme;
-  }
 
   /**
    * Creates a new empty EncryptedFile object
@@ -130,22 +83,6 @@ public class EncryptedFile implements Serializable {
    */
   public static String generatePassword(int sizeInBytes) throws NoSuchAlgorithmException {
     return Base64.getEncoder().encodeToString(generateRandomArry(sizeInBytes));
-  }
-
-  private byte[] getNonce() {
-    return this.nonce;
-  }
-
-  private byte[] getSalt() {
-    return this.salt;
-  }
-
-  private String getCipherText() {
-    return this.cipherText;
-  }
-
-  private String getPath() {
-    return this.path;
   }
 
   /**
@@ -204,14 +141,14 @@ public class EncryptedFile implements Serializable {
 
     // Read configuration from file
 
-    byte[] nonce = new byte[gcmIvNonceSizeBytes];
-    byte[] salt = new byte[pbkdf2SaltSizeBytes];
+    byte[] myNonce = new byte[gcmIvNonceSizeBytes];
+    byte[] mySalt = new byte[pbkdf2SaltSizeBytes];
 
     try (
             FileInputStream fileInputStream = new FileInputStream(path);
     ) {
-      fileInputStream.read(nonce);
-      fileInputStream.read(salt);
+      int countReadBytesNonce = fileInputStream.read(myNonce);
+      int countReadBytesSalt = fileInputStream.read(mySalt);
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
       throw new SecurityException(e.getMessage(), e);
@@ -220,12 +157,12 @@ public class EncryptedFile implements Serializable {
     /* Derive the key*/
     SecretKeyFactory factory = SecretKeyFactory.getInstance(pbkdf2Scheme);
     // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, pbkdf2Iterations, aesKeyLengthBits);
+    KeySpec keyspec = new PBEKeySpec(password.toCharArray(), mySalt, pbkdf2Iterations, aesKeyLengthBits);
     SecretKey tmp = factory.generateSecret(keyspec);
     SecretKey key = new SecretKeySpec(tmp.getEncoded(), cipher);
 
     Cipher myCipher = Cipher.getInstance(cipherscheme);
-    GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, nonce);
+    GCMParameterSpec spec = new GCMParameterSpec(gcmAuthenticationTagSizeBits, myNonce);
 
     myCipher.init(Cipher.DECRYPT_MODE, key, spec);
 
@@ -241,7 +178,7 @@ public class EncryptedFile implements Serializable {
 
       // TODO check if file has this bytes at least.
       byte[] skipped = new byte[gcmIvNonceSizeBytes+pbkdf2SaltSizeBytes];
-      fileInputStream.read(skipped);
+      int read = fileInputStream.read(skipped);
 
       byte[] buffer = new byte[8192];
       while (cipherInputStream.read(buffer) > 0) {
