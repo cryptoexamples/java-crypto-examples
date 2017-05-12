@@ -46,4 +46,11 @@ public class EncryptionInOneMethodTests {
     assertThat(errContent.toString(), containsString("Decrypted file content and original plain text are the same: true"));
   }
 
+  @Test
+  public void testHashMain() {
+    ExampleHashInOneMethod.main(new String[1]);
+    // uses string: "Text that should be authenticated by comparing the hash of it!"
+    assertThat(errContent.toString(), containsString("jg0X629+SmdP0/LTHZV/3zXBrizM3/hptRZVIuTXSCtyaqAe0NB8KMld2qebBIXFS1yowCUpCPu93l/fPmKEXg=="));
+  }
+
 }
