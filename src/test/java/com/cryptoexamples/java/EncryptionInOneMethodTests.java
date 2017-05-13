@@ -53,4 +53,10 @@ public class EncryptionInOneMethodTests {
     assertThat(errContent.toString(), containsString("jg0X629+SmdP0/LTHZV/3zXBrizM3/hptRZVIuTXSCtyaqAe0NB8KMld2qebBIXFS1yowCUpCPu93l/fPmKEXg=="));
   }
 
+  @Test
+  public void testSignatureMain() {
+    ExampleSignatureInOneMethod.main(new String[1]);
+    assertThat(errContent.toString(), containsString("Signature is correct: true"));
+  }
+
 }

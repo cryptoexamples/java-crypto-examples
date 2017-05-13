@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 
 /**
- * All in one example for hasing of a string in one method;
+ * All in one example for hashing of a string in one method;
  * Including
  * - SHA-512
  * - BASE64 encoding
