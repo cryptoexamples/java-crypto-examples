@@ -34,7 +34,7 @@ public class ExampleEncryptedFile {
       // DECRYPTION
       String decryptedCipherText = new EncryptedFile().decrypt(password, path);
 
-      LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %s", decryptedCipherText.compareTo(plainText) == 0 ? "true" : "false"));
+      LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
     } catch (GeneralSecurityException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
