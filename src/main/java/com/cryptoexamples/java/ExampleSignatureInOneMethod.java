@@ -29,7 +29,7 @@ public class ExampleSignatureInOneMethod {
   private static final Logger LOGGER = Logger.getLogger(ExampleSignatureInOneMethod.class.getName());
 
   public static void main(String[] args) {
-    String plainText = "Text that should be signed to prevent unknown tampering with it's content.";
+    String plainText = "Text that should be signed to prevent unknown tampering with its content.";
     try {
       // GENERATE NEW KEYPAIR
       KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
