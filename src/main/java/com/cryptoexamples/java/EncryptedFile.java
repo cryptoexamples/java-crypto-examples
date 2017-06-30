@@ -40,7 +40,7 @@ public class EncryptedFile implements Serializable {
   /* @see https://www.keylength.com/ */
   private static final int DEFAULT_AES_KEY_LENGTH_BITS = 256;
   private static final String DEFAULT_CIPHER = "AES";
-  private static final String DEFAULT_CIPHERSCHEME = "AES/GCM/PKCS5Padding";
+  private static final String DEFAULT_CIPHERSCHEME = "AES/GCM/NoPadding";
   private static final String DEFAULT_PBKDF2_SCHEME = "PBKDF2WithHmacSHA256";
 
   private int gcmAuthenticationTagSizeBits = DEFAULT_GCM_AUTHENTICATION_TAG_SIZE_BITS;

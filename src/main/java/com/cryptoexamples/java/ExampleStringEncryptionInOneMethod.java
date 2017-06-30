@@ -50,7 +50,7 @@ public class ExampleStringEncryptionInOneMethod {
       random.nextBytes(nonce);
 
       // ENCRYPTION
-      Cipher cipher = Cipher.getInstance("AES/GCM/PKCS5Padding");
+      Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
       GCMParameterSpec spec = new GCMParameterSpec(16 * 8, nonce);
       cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
