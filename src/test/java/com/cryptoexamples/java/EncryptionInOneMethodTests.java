@@ -42,7 +42,7 @@ public class EncryptionInOneMethodTests {
 
   @Test
   public void testStringEncryptionKeyBasedMain() {
-    ExampleStringEncryptionPasswordBasedInOneMethod.main(new String[1]);
+    ExampleStringEncryptionKeyBasedInOneMethod.main(new String[1]);
     assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
   }
 
