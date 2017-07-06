@@ -16,11 +16,11 @@ import java.util.Base64;
 /**
  * Encapsulating class for encrypting and decrypting strings
  * Including
- * - random password generation,
- * - random salt generation,
- * - key derivation using PBKDF2 HMAC SHA-256,
+ * - Random password generation using strong secure random number generator
+ * - Random salt generation
+ * - Key derivation using PBKDF2 HMAC SHA-256,
  * - AES-256 authenticated encryption using GCM
- * - BASE64-encoding for the byte-arrays
+ * - BASE64-encoding as representation for the byte-arrays
  */
 public class EncryptedString implements Serializable {
 

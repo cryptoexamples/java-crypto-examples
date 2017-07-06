@@ -16,9 +16,9 @@ import java.util.logging.Logger;
  * All in one example for hashing of a string in one method;
  * Including
  * - SHA-512
- * - BASE64 encoding
+ * - BASE64-encoding as representation for the byte-arrays
  * - UTF-8 encoding of String
- * - exception handling
+ * - Exception handling
  */
 public class ExampleHashInOneMethod {
   private static final Logger LOGGER = Logger.getLogger(ExampleHashInOneMethod.class.getName());

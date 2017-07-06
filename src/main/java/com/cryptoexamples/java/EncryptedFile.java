@@ -18,9 +18,9 @@ import java.util.logging.Logger;
  * Encapsulating class for saving a String encrypted in a file and to decrypt/retrieve it.
  *
  * Including
- * - random password generation,
- * - random salt generation,
- * - key derivation using PBKDF2 HMAC SHA-256,
+ * - Random password generation using strong secure random number generator
+ * - Random salt generation
+ * - Key derivation using PBKDF2 HMAC SHA-256,
  * - AES-256 authenticated encryption using GCM
  * - UTF-8 encoding
  * // TODO store all encryption parameters (as authenticated data) prepended to the file content

@@ -19,11 +19,11 @@ import java.util.logging.Logger;
 /**
  * All in one example for cryptographic signing of a string in one method;
  * Including
- * - Generation of public and private RSA keypair
+ * - Generation of public and private RSA 4096 bit keypair
  * - SHA-512 with RSA
- * - BASE64 encoding
+ * - BASE64-encoding as representation for the byte-arrays
  * - UTF-8 encoding of String
- * - exception handling
+ * - Exception handling
  */
 public class ExampleSignatureInOneMethod {
   private static final Logger LOGGER = Logger.getLogger(ExampleSignatureInOneMethod.class.getName());

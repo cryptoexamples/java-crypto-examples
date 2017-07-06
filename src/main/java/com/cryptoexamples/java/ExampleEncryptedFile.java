@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 /**
  * Object oriented example for encryption and decryption of a string;
  * Including
- * - random password generation,
- * - random salt generation,
- * - key derivation using PBKDF2 HMAC SHA-256,
+ * - Random password generation using strong secure random number generator
+ * - Random salt generation
+ * - Key derivation using PBKDF2 HMAC SHA-256,
  * - AES-256 authenticated encryption using GCM
- * - BASE64-encoding for the byte-arrays
- * - exception handling
+ * - BASE64-encoding as representation for the byte-arrays
+ * - Exception handling
  */
 public class ExampleEncryptedFile {
   private static final Logger LOGGER = Logger.getLogger(ExampleEncryptedFile.class.getName());
