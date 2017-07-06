@@ -14,39 +14,27 @@ import java.util.logging.Logger;
 /**
  * All in one example for encryption and decryption of a string in one method;
  * Including
- * - random password generation,
- * - random salt generation,
- * - key derivation using PBKDF2 HMAC SHA-256,
+ * - Random key generation using strong secure random number generator
  * - AES-256 authenticated encryption using GCM
- * - BASE64-encoding for the byte-arrays
- * - exception handling
+ * - BASE64-encoding as representation for the byte-arrays
+ * - Exception handling
  */
-public class ExampleStringEncryptionInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionInOneMethod.class.getName());
+public class ExampleStringEncryptionKeyBasedInOneMethod {
+  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionKeyBasedInOneMethod.class.getName());
 
   public static void main(String[] args) {
     String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
     try {
-      // GENERATE password
+      // GENERATE key
+      // TODO key should only be generated once and then stored in a secure location.
       KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
+      // 256 bit requires unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       keyGen.init(256);
-      String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
-
-      // GENERATE random salt
-      final byte[] salt = new byte[12];
-      SecureRandom random = SecureRandom.getInstanceStrong();
-      random.nextBytes(salt);
-
-      // DERIVE key (from password and salt)
-      SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
-      SecretKey tmp = factory.generateSecret(keyspec);
-      SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
+      SecretKey key = keyGen.generateKey();
 
       // GENERATE random nonce (number used once)
       final byte[] nonce = new byte[32];
+      SecureRandom random = SecureRandom.getInstanceStrong();
       random.nextBytes(nonce);
 
       // ENCRYPTION
@@ -68,7 +56,7 @@ public class ExampleStringEncryptionInOneMethod {
       String decryptedCipherText = new String(decryptedCipher);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
-    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
+    } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException e) {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
   }
