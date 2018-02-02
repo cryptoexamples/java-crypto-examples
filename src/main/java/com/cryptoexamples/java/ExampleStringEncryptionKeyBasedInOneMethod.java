@@ -65,5 +65,4 @@ public class ExampleStringEncryptionKeyBasedInOneMethod {
       LOGGER.log(Level.SEVERE, e.getMessage(), e);
     }
   }
-
 }

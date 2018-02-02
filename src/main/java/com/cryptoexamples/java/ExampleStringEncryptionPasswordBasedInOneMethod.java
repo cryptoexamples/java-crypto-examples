@@ -21,7 +21,6 @@ import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * All in one example for encryption and decryption of a string in one method;
  * Including

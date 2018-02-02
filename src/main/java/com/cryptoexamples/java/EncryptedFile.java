@@ -27,7 +27,6 @@ import java.util.logging.Logger;
  * // TODO use Cryptographic Message Snytax (https://tools.ietf.org/html/rfc5652)
  */
 public class EncryptedFile implements Serializable {
-
   private static final Logger LOGGER = Logger.getLogger(EncryptedFile.class.getName());
 
   /* 128, 120, 112, 104, or 96 @see NIST Special Publication 800-38D*/
@@ -117,7 +116,6 @@ public class EncryptedFile implements Serializable {
 
       // write salt
       fileOutputStream.write(newSalt);
-
 
       byte[] buffer = new byte[8192];
       while (stringInputStream.read(buffer) > 0) {

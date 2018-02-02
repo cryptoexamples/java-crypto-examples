@@ -1,6 +1,5 @@
 package com.cryptoexamples.java;
 
-
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -11,10 +10,6 @@ import java.security.SignatureException;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-/**
- * Created by Kai Mindermann on 2017-05-13.
- */
 
 /**
  * All in one example for cryptographic signing of a string in one method;

@@ -9,10 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Kai Mindermann on 12.05.2017.
- */
-
-/**
  * All in one example for hashing of a string in one method;
  * Including
  * - SHA-512
