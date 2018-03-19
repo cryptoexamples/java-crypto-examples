@@ -15,7 +15,7 @@ tags: [Java, AES, GCM, Salt, AEAD]
 ## Sample Code for Java based symmetric encryption using AES-GCM and generation of keys
 
 ```java
-{% include_relative java-crypto-examples/src/main/java/com/cryptoexamples/java/ExampleStringEncryptionKeyBasedInOneMethod.java %}
+{% include_relative src/main/java/com/cryptoexamples/java/ExampleStringEncryptionKeyBasedInOneMethod.java %}
 ```
 
 

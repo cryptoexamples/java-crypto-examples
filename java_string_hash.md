@@ -14,7 +14,7 @@ tags: [Java, hash, SHA, SHA-512]
 ## Sample Code for Java based hasing of a String using SHA-512, BASE64 and UTF-8 encoding
 
 ```java
-{% include_relative java-crypto-examples/src/main/java/com/cryptoexamples/java/ExampleHashInOneMethod.java %}
+{% include_relative src/main/java/com/cryptoexamples/java/ExampleHashInOneMethod.java %}
 ```
 
 

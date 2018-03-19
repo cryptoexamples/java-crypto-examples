@@ -14,7 +14,7 @@ tags: [Java, hash, SHA, SHA-512]
 ## Sample Code for Java based signing of a String using SHA-512, RSA 4096, BASE64 and UTF-8 encoding
 
 ```java
-{% include_relative java-crypto-examples/src/main/java/com/cryptoexamples/java/ExampleSignatureInOneMethod.java %}
+{% include_relative src/main/java/com/cryptoexamples/java/ExampleSignatureInOneMethod.java %}
 ```
 
 
