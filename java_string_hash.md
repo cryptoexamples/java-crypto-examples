@@ -9,9 +9,9 @@ tags: [Java, hash, SHA, SHA-512]
 
 ## Use cases
 
-- verifying if a string has been changed
+- Verifying if a string has been changed
 
-## Sample Code for Java based hasing of a String using SHA-512, BASE64 and UTF-8 encoding
+## Sample Code for Java based hashing of a String using SHA-512, BASE64 and UTF-8 encoding
 
 ```java
 {% include_relative src/main/java/com/cryptoexamples/java/ExampleHashInOneMethod.java %}
