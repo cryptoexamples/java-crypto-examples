@@ -47,6 +47,12 @@ public class EncryptionInOneMethodTests {
   }
 
   @Test
+  public void testAsymmetricStringEncryptionMain() {
+    ExampleAsymmetricStringEncryptionInOneMethod.main(new String[1]);
+    assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
+  }
+
+  @Test
   public void testFileEncryptionMain() {
     ExampleFileEncryptionInOneMethod.main(new String[1]);
     assertThat(errContent.toString(), containsString("Decrypted file content and original plain text are the same: true"));
