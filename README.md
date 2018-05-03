@@ -1,4 +1,4 @@
-# java-crypto-examples for [CryptoExamples](http://www.cryptoexamples.com)
+# java-crypto-examples for [CryptoExamples](https://www.cryptoexamples.com)
 
 Example code for cryptographic use cases. Used in [CryptoExamples](https://github.com/cryptoexamples/CryptoExamples)
 
