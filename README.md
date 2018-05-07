@@ -2,7 +2,7 @@
 
 Example code for cryptographic use cases. Used in [CryptoExamples](https://github.com/cryptoexamples/CryptoExamples)
 
-[![Build status](https://travis-ci.org/SonarSource/sq-com_example_java-gradle-travis.svg?branch=master)](https://travis-ci.org/SonarSource/sq-com_example_java-gradle-travis) 
+[![Build status](https://travis-ci.org/cryptoexamples/java-crypto-examples.svg?branch=master)](https://travis-ci.org/SonarSource/cryptoexamples/java-crypto-examples) 
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=java-crypto-examples&metric=alert_status)](https://sonarcloud.io/dashboard?id=java-crypto-examples)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=java-crypto-examples&metric=sqale_rating)](https://sonarcloud.io/component_measures?id=java-crypto-examples&metric=sqale_rating)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=java-crypto-examples&metric=security_rating)](https://sonarcloud.io/component_measures?id=java-crypto-examples&metric=security_rating)
