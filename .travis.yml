@@ -2,7 +2,9 @@ language: java
 jdk:
   - oraclejdk8
   - oraclejdk9
-  - oraclejdk10
+  - openjdk9
+  - openjdk10
+  - openjdk11
 addons:
   sonarqube:
     organization: "kmindi-github" # the key of the org you chose at step #3

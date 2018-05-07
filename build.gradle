@@ -8,7 +8,7 @@ version '0.1-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
-sourceCompatibility = 1.10
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
