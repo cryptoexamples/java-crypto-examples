@@ -1,6 +1,8 @@
 language: java
 jdk:
   - oraclejdk8
+  - oraclejdk9
+  - oraclejdk10
 addons:
   sonarqube:
     organization: "kmindi-github" # the key of the org you chose at step #3
