@@ -12,11 +12,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for cryptographic signing of a string in one method;
- * Including
+ * All in one example for cryptographic signing of a string in one method.
  * - Generation of public and private RSA 4096 bit keypair
  * - SHA-512 with RSA
- * - BASE64-encoding as representation for the byte-arrays
+ * - BASE64 encoding as representation for the byte-arrays
  * - UTF-8 encoding of String
  * - Exception handling
  */
@@ -38,15 +37,14 @@ public class ExampleSignatureInOneMethod {
       signature.update(plainText.getBytes(StandardCharsets.UTF_8));
 
       // SIGN DATA/STRING
-      byte[] signatureForPlainText = signature.sign();
-      String signatureForPlainTextString = new String(Base64.getEncoder().encode(signatureForPlainText),StandardCharsets.UTF_8);
+      String signatureForPlainTextString = Base64.getEncoder().encodeToString(signature.sign());
       LOGGER.log(Level.INFO, () -> String.format("Signature: %s", signatureForPlainTextString));
 
       // VERIFY JUST CREATED SIGNATURE USING PUBLIC KEY
       signature.initVerify(keyPair.getPublic());
       signature.update(plainText.getBytes(StandardCharsets.UTF_8));
 
-      boolean isSignatureCorrect = signature.verify(signatureForPlainText);
+      boolean isSignatureCorrect = signature.verify(Base64.getDecoder().decode(signatureForPlainTextString));
       LOGGER.log(Level.INFO, () -> String.format("Signature is correct: %b", isSignatureCorrect));
     } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
       LOGGER.log(Level.SEVERE, e.getLocalizedMessage(), e);

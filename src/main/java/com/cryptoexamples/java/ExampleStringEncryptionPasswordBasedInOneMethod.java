@@ -10,6 +10,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.InvalidParameterException;
@@ -22,13 +23,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for encryption and decryption of a string in one method;
- * Including
+ * All in one example for encryption and decryption of a string in one method.
  * - Random password generation using strong secure random number generator
  * - Random salt generation
  * - Key derivation using PBKDF2 HMAC SHA-256,
  * - AES-256 authenticated encryption using GCM
- * - BASE64-encoding as representation for the byte-arrays
+ * - BASE64 encoding as representation for the byte-arrays
+ * - UTF-8 encoding of Strings
  * - Exception handling
  */
 public class ExampleStringEncryptionPasswordBasedInOneMethod {
@@ -39,7 +40,6 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
     try {
       // GENERATE password (not needed if you have a password already)
       KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       keyGen.init(256);
       String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
 
@@ -50,11 +50,9 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
 
       // DERIVE key (from password and salt)
       SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
       SecretKey tmp = factory.generateSecret(keyspec);
       SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
-
 
       // GENERATE random nonce (number used once)
       final byte[] nonce = new byte[32];
@@ -65,18 +63,14 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
       GCMParameterSpec spec = new GCMParameterSpec(16 * 8, nonce);
       cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
-      //byte[] aad = "Additional authenticated not encrypted data".getBytes();
-      //cipher.updateAAD(aad);
-
-      byte[] byteCipher = cipher.doFinal(plainText.getBytes());
+      byte[] cipherTextBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
       // CONVERSION of raw bytes to BASE64 representation
-      String cipherText = new String(Base64.getEncoder().encode(byteCipher));
+      String cipherText = Base64.getEncoder().encodeToString(cipherTextBytes);
 
       // DECRYPTION
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
-      //cipher.updateAAD(aad);
-      byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
-      String decryptedCipherText = new String(decryptedCipher);
+      byte[] decryptedCipherTextBytes = cipher.doFinal(Base64.getDecoder().decode(cipherText));
+      String decryptedCipherText = new String(decryptedCipherTextBytes, StandardCharsets.UTF_8);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {

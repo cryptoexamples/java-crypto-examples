@@ -7,6 +7,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.InvalidParameterException;
@@ -17,11 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for encryption and decryption of a string in one method;
- * Including
+ * All in one example for encryption and decryption of a string in one method.
  * - Random key generation using strong secure random number generator
  * - AES-256 authenticated encryption using GCM
- * - BASE64-encoding as representation for the byte-arrays
+ * - BASE64 encoding as representation for the byte-arrays
+ * - UTF-8 encoding of Strings
  * - Exception handling
  */
 public class ExampleStringEncryptionKeyBasedInOneMethod {
@@ -47,18 +48,15 @@ public class ExampleStringEncryptionKeyBasedInOneMethod {
       GCMParameterSpec spec = new GCMParameterSpec(16 * 8, nonce);
       cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
-      //byte[] aad = "Additional authenticated not encrypted data".getBytes();
-      //cipher.updateAAD(aad);
-
-      byte[] byteCipher = cipher.doFinal(plainText.getBytes());
+      byte[] byteCipher = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
       // CONVERSION of raw bytes to BASE64 representation
-      String cipherText = new String(Base64.getEncoder().encode(byteCipher));
+      String cipherText = Base64.getEncoder().encodeToString(byteCipher);
 
       // DECRYPTION
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
       //cipher.updateAAD(aad);
       byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
-      String decryptedCipherText = new String(decryptedCipher);
+      String decryptedCipherText = new String(decryptedCipher, StandardCharsets.UTF_8);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException e) {

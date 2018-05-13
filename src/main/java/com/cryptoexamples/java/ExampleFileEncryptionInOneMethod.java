@@ -63,9 +63,9 @@ public class ExampleFileEncryptionInOneMethod {
 
       // SET UP OUTPUT STREAM and write content of String
       try (
-              FileOutputStream fileOutputStream = new FileOutputStream("encryptedFile.enc");
-              CipherOutputStream encryptedOutputStream = new CipherOutputStream(fileOutputStream, cipher);
-              InputStream stringInputStream = new ByteArrayInputStream(plainText.getBytes(StandardCharsets.UTF_8));
+        FileOutputStream fileOutputStream = new FileOutputStream("encryptedFile.enc");
+        CipherOutputStream encryptedOutputStream = new CipherOutputStream(fileOutputStream, cipher);
+        InputStream stringInputStream = new ByteArrayInputStream(plainText.getBytes(StandardCharsets.UTF_8))
       ) {
         byte[] buffer = new byte[8192];
         while (stringInputStream.read(buffer) > 0) {
@@ -79,7 +79,7 @@ public class ExampleFileEncryptionInOneMethod {
       //cipher.updateAAD(aad);
       try (
               FileInputStream fileInputStream = new FileInputStream("encryptedFile.enc");
-              CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher);
+              CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)
       ) {
         byte[] buffer = new byte[8192];
         while (cipherInputStream.read(buffer) > 0) {
