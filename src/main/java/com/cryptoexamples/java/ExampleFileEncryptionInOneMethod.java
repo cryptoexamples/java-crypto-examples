@@ -56,9 +56,6 @@ public class ExampleFileEncryptionInOneMethod {
       GCMParameterSpec spec = new GCMParameterSpec(16 * 8, nonce);
       cipher.init(Cipher.ENCRYPT_MODE, key, spec);
 
-      //byte[] aad = "Additional authenticated not encrypted data".getBytes();
-      //cipher.updateAAD(aad);
-
       // TODO store encryption parameters as authenticated data prepended to the file content
 
       // SET UP OUTPUT STREAM and write content of String
@@ -76,7 +73,7 @@ public class ExampleFileEncryptionInOneMethod {
       // READ ENCRYPTED FILE
       StringBuilder stringBuilder = new StringBuilder();
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
-      //cipher.updateAAD(aad);
+
       try (
               FileInputStream fileInputStream = new FileInputStream("encryptedFile.enc");
               CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)
