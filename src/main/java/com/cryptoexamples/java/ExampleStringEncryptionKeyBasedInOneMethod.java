@@ -54,7 +54,6 @@ public class ExampleStringEncryptionKeyBasedInOneMethod {
 
       // DECRYPTION
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
-      //cipher.updateAAD(aad);
       byte[] decryptedCipher = cipher.doFinal(Base64.getDecoder().decode(cipherText));
       String decryptedCipherText = new String(decryptedCipher, StandardCharsets.UTF_8);
 
