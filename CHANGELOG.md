@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.0] - 2018-05-13
+
 ### Changed
 
-- fixed version link in Changelog
+- Fixed version link in Changelog
+- Refactored examples
+- Updated class comments
+
+### Removed
+
+- Removed easy object oriented examples that used a separate class
+- Removed mentions of the need for unlimited policy files (unlimited is default since JDK / Java SE 9)
+- Removed commented out code
 
 ## [0.1.1] - 2018-04-28
 
@@ -56,6 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - made some security relevant changes
 - made other security relevant changes
 
-[Unreleased]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/cryptoexamples/java-crypto-examples/releases/tag/v0.1.0
