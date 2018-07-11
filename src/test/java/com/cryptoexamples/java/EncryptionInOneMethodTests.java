@@ -3,10 +3,12 @@ package com.cryptoexamples.java;
 import org.junit.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -35,8 +37,11 @@ public class EncryptionInOneMethodTests {
   }
 
   @Test
-  public void testStringEncryptionPasswordBasedMain() {
+  public void testStringEncryptionPasswordBasedMain() throws IOException {
     ExampleStringEncryptionPasswordBasedInOneMethod.main(new String[1]);
+    assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
+    errContent.flush();
+    assertTrue(ExampleStringEncryptionPasswordBasedInOneMethod.demonstratePasswordBasedSymmetricEncryption("plaintext",null));
     assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
   }
 

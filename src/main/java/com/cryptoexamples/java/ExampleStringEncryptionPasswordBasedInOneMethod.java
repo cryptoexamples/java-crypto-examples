@@ -35,10 +35,14 @@ import java.util.logging.Logger;
 public class ExampleStringEncryptionPasswordBasedInOneMethod {
   private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionPasswordBasedInOneMethod.class.getName());
 
-  public static void main(String[] args) {
-    String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
+  /**
+   * Demonstrational method that encrypts the plainText using a password (that is used to derive the required key).
+   * @param plainText
+   * @param password
+   * @return true if encryption and decryption is working, false otherwise
+   */
+  public static boolean demonstratePasswordBasedSymmetricEncryption(String plainText, String password) {
     try {
-      String password = null;
       // GENERATE password (not needed if you have a password already)
       if(password == null || password.isEmpty()) {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -76,9 +80,15 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
       String decryptedCipherText = new String(decryptedCipherTextBytes, StandardCharsets.UTF_8);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
+      return decryptedCipherText.compareTo(plainText) == 0;
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
       LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
+      return false;
     }
+  }
+
+  public static void main(String[] args) {
+    demonstratePasswordBasedSymmetricEncryption("Text that is going to be sent over an insecure channel and must be encrypted at all costs!",null);
   }
 
 }
