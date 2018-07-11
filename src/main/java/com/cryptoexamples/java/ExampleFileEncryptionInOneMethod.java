@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * Including
  * - Random password generation using strong secure random number generator
  * - Random salt generation
- * - Key derivation using PBKDF2 HMAC SHA-256,
+ * - Key derivation using PBKDF2 HMAC SHA-512,
  * - AES-256 authenticated encryption using GCM
  * - BASE64-encoding as representation for the byte-arrays
  * - Exception handling
@@ -29,11 +29,13 @@ public class ExampleFileEncryptionInOneMethod {
   public static void main(String[] args) {
     String plainText = "Multiline text:";
     try {
-      // GENERATE password
-      KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-      keyGen.init(256);
-      String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+      String password = null;
+      // GENERATE password (not needed if you have a password already)
+      if(password == null || password.isEmpty()) {
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256);
+        password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
+      }
 
       // GENERATE random salt
       final byte[] salt = new byte[64];
@@ -41,11 +43,10 @@ public class ExampleFileEncryptionInOneMethod {
       random.nextBytes(salt);
 
       // DERIVE key (from password and salt)
-      SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-      // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 10000, 256);
-      SecretKey tmp = factory.generateSecret(keyspec);
-      SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
+      SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+      KeySpec passwordBasedEncryptionKeySpec = new PBEKeySpec(password.toCharArray(), salt, 10000, 256);
+      SecretKey secretKeyFromPBKDF2 = secretKeyFactory.generateSecret(passwordBasedEncryptionKeySpec);
+      SecretKey key = new SecretKeySpec(secretKeyFromPBKDF2.getEncoded(), "AES");
 
       // GENERATE random nonce (number used once)
       final byte[] nonce = new byte[32];

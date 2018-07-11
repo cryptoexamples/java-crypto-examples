@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Changed PBKDF2 hash function to SHA-512
 - Increased PBKDF2 salt size to 64 bytes (equal to SHA-512 size)
 - Increased PBKDF2 iterations to 10000
+- Refactored variable names
 
 ### Fixed
 - Exceptions were logged including the stack trace, now only the localized message is logged
