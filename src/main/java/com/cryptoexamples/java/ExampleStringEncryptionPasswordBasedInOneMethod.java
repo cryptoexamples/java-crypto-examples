@@ -44,7 +44,7 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
       String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
 
       // GENERATE random salt (needed for PBKDF2)
-      final byte[] salt = new byte[12];
+      final byte[] salt = new byte[32];
       SecureRandom random = SecureRandom.getInstanceStrong();
       random.nextBytes(salt);
 
