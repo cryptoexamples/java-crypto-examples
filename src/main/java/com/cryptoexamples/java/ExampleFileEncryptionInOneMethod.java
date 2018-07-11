@@ -36,12 +36,12 @@ public class ExampleFileEncryptionInOneMethod {
       String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
 
       // GENERATE random salt
-      final byte[] salt = new byte[32];
+      final byte[] salt = new byte[64];
       SecureRandom random = SecureRandom.getInstanceStrong();
       random.nextBytes(salt);
 
       // DERIVE key (from password and salt)
-      SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+      SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
       // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 10000, 256);
       SecretKey tmp = factory.generateSecret(keyspec);
