@@ -50,7 +50,7 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
 
       // DERIVE key (from password and salt)
       SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
+      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 10000, 256);
       SecretKey tmp = factory.generateSecret(keyspec);
       SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
 
@@ -74,7 +74,7 @@ public class ExampleStringEncryptionPasswordBasedInOneMethod {
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException | InvalidKeySpecException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
+      LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
     }
   }
 

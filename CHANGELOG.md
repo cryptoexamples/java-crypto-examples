@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Increased PBKDF2 salt size to 32 bytes (equal to SHA-256 size)
+- Increased PBKDF2 iterations to 10000
+
+### Fixed
+- Exceptions were logged including the stack trace, now only the localized message is logged
+
 ## [0.2.0] - 2018-05-13
 
 ### Changed

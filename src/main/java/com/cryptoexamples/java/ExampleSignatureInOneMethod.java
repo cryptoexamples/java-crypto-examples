@@ -47,7 +47,7 @@ public class ExampleSignatureInOneMethod {
       boolean isSignatureCorrect = signature.verify(Base64.getDecoder().decode(signatureForPlainTextString));
       LOGGER.log(Level.INFO, () -> String.format("Signature is correct: %b", isSignatureCorrect));
     } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-      LOGGER.log(Level.SEVERE, e.getLocalizedMessage(), e);
+      LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
     }
   }
 }

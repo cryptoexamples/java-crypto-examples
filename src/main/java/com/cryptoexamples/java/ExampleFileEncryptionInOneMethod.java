@@ -36,14 +36,14 @@ public class ExampleFileEncryptionInOneMethod {
       String password = Base64.getEncoder().encodeToString(keyGen.generateKey().getEncoded());
 
       // GENERATE random salt
-      final byte[] salt = new byte[12];
+      final byte[] salt = new byte[32];
       SecureRandom random = SecureRandom.getInstanceStrong();
       random.nextBytes(salt);
 
       // DERIVE key (from password and salt)
       SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
       // Needs unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
-      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 65536, 256);
+      KeySpec keyspec = new PBEKeySpec(password.toCharArray(), salt, 10000, 256);
       SecretKey tmp = factory.generateSecret(keyspec);
       SecretKey key = new SecretKeySpec(tmp.getEncoded(), "AES");
 
@@ -98,7 +98,7 @@ public class ExampleFileEncryptionInOneMethod {
             InvalidAlgorithmParameterException |
             InvalidKeySpecException |
             IOException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
+      LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
     }
   }
 

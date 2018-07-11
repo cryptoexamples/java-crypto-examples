@@ -59,7 +59,7 @@ public class ExampleStringEncryptionKeyBasedInOneMethod {
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
+      LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
     }
   }
 }

@@ -32,7 +32,7 @@ public class ExampleHashInOneMethod {
 
       LOGGER.log(Level.INFO, hashString);
     } catch (NoSuchAlgorithmException e) {
-      LOGGER.log(Level.SEVERE, e.getLocalizedMessage(), e);
+      LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
     }
   }
 }
