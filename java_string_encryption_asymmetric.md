@@ -39,7 +39,7 @@ tags: [Java, RSA, Asymmetric, String, Encryption]
 ## Example Code for Java Asymmetric String Encryption using RSA 4096
 
 ```java
-{% include_relative src/main/java/com/cryptoexamples/java/ExampleAsymmetricStringEncryptionInOneMethod.java %}
+{% include_relative src/main/java/com/cryptoexamples/java/ExampleAsymmetricStringEncryption.java %}
 ```
 
 {% include links.html %}

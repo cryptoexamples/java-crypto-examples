@@ -40,7 +40,7 @@ tags: [Java, AES, GCM, Salt, AEAD]
 ## Example Code for Java String Encryption with key generation using AES-GCM
 
 ```java
-{% include_relative src/main/java/com/cryptoexamples/java/ExampleStringEncryptionKeyBasedInOneMethod.java %}
+{% include_relative src/main/java/com/cryptoexamples/java/ExampleStringEncryptionKeyBased.java %}
 ```
 
 

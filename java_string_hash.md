@@ -39,7 +39,7 @@ tags: [Java, hash, SHA, SHA-512]
 ## Example Code for Java String Hashing using SHA-512, BASE64 and UTF-8 encoding
 
 ```java
-{% include_relative src/main/java/com/cryptoexamples/java/ExampleHashInOneMethod.java %}
+{% include_relative src/main/java/com/cryptoexamples/java/ExampleHash.java %}
 ```
 
 
