@@ -1,5 +1,5 @@
 ---
-title: Asymmetric String Encryption using Java JDK
+title: Java Asymmetric String Encryption using JDK
 keywords: sample
 summary: "Asymmetric String Encryption in Java"
 permalink: java_asymmetric_string_encryption.html
@@ -24,15 +24,19 @@ current_reviews: [
 
 ]
 # Indicates when this example was last updated/created. Reviews don't change this.
-last_updated: "2018-05-13"
+last_updated: "2018-08-02"
 tags: [Java, RSA, Asymmetric, String, Encryption]
 ---
 
 ## Use cases
 
-- 
+- Asymmetric encryption
 
-## Sample Code for Java based asymmetric encryption 
+## Java version
+
+- JDK 11
+
+## Example Code for Java Asymmetric String Encryption using RSA 4096
 
 ```java
 {% include_relative src/main/java/com/cryptoexamples/java/ExampleAsymmetricStringEncryptionInOneMethod.java %}

@@ -18,23 +18,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for encryption and decryption of a string in one method.
+ * Example for encryption and decryption of a string in one method.
  * - Random key generation using strong secure random number generator
  * - AES-256 authenticated encryption using GCM
  * - BASE64 encoding as representation for the byte-arrays
  * - UTF-8 encoding of Strings
  * - Exception handling
  */
-public class ExampleStringEncryptionKeyBasedInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionKeyBasedInOneMethod.class.getName());
+public class ExampleStringEncryptionKeyBased {
+  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionKeyBased.class.getName());
 
-  public static void main(String[] args) {
-    String plainText = "Text that is going to be sent over an insecure channel and must be encrypted at all costs!";
+  /**
+   * Demonstrational method that encrypts the plainText using a newly generated key.
+   * @param plainText
+   * @return true if encryption and decryption were successful, false otherwise
+   */
+  public static boolean demonstrateKeyBasedSymmetricEncryption(String plainText) {
     try {
       // GENERATE key
-      // TODO key should only be generated once and then stored in a secure location.
+      // TODO key should only be generated once and then managed with a key manager/key store.
       KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-      // 256 bit requires unlimited strength policy files http://www.oracle.com/technetwork/java/javase/downloads
       keyGen.init(256);
       SecretKey key = keyGen.generateKey();
 
@@ -58,8 +61,14 @@ public class ExampleStringEncryptionKeyBasedInOneMethod {
       String decryptedCipherText = new String(decryptedCipher, StandardCharsets.UTF_8);
 
       LOGGER.log(Level.INFO, () -> String.format("Decrypted and original plain text are the same: %b", decryptedCipherText.compareTo(plainText) == 0));
+      return decryptedCipherText.compareTo(plainText) == 0;
     } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidParameterException | InvalidAlgorithmParameterException e) {
       LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
+      return false;
     }
+  }
+
+  public static void main(String[] args) {
+    demonstrateKeyBasedSymmetricEncryption("Text that is going to be sent over an insecure channel and must be encrypted at all costs!");
   }
 }

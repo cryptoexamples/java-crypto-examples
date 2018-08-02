@@ -1,6 +1,12 @@
 package com.cryptoexamples.java;
 
-import javax.crypto.*;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,8 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for encryption and decryption of a file in one method;
- * Including
+ * Example for encryption and decryption of a file in one method.
  * - Random password generation using strong secure random number generator
  * - Random salt generation
  * - Key derivation using PBKDF2 HMAC SHA-512,
@@ -23,13 +28,18 @@ import java.util.logging.Logger;
  * - BASE64-encoding as representation for the byte-arrays
  * - Exception handling
  */
-public class ExampleFileEncryptionInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger(ExampleFileEncryptionInOneMethod.class.getName());
+public class ExampleFileEncryption {
+  private static final Logger LOGGER = Logger.getLogger(ExampleFileEncryption.class.getName());
 
-  public static void main(String[] args) {
-    String plainText = "Multiline text:";
+  /**
+   * Demonstrational method that encrypts a file using a password (that is used to derive the required key).
+   * @param fileName
+   * @param plainText
+   * @param password
+   * @return true if encryption and decryption were successful, false otherwise
+   */
+  public static boolean demonstrateFileEncryption(String fileName, String plainText, String password) {
     try {
-      String password = null;
       // GENERATE password (not needed if you have a password already)
       if(password == null || password.isEmpty()) {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -61,37 +71,42 @@ public class ExampleFileEncryptionInOneMethod {
 
       // SET UP OUTPUT STREAM and write content of String
       try (
-        FileOutputStream fileOutputStream = new FileOutputStream("encryptedFile.enc");
+        FileOutputStream fileOutputStream = new FileOutputStream(fileName);
         CipherOutputStream encryptedOutputStream = new CipherOutputStream(fileOutputStream, cipher);
         InputStream stringInputStream = new ByteArrayInputStream(plainText.getBytes(StandardCharsets.UTF_8))
       ) {
         byte[] buffer = new byte[8192];
-        while (stringInputStream.read(buffer) > 0) {
-          encryptedOutputStream.write(buffer);
+        int nread;
+        while ((nread = stringInputStream.read(buffer)) > 0) {
+          encryptedOutputStream.write(buffer, 0, nread);
         }
+        encryptedOutputStream.flush();
       }
 
       // READ ENCRYPTED FILE
       StringBuilder stringBuilder = new StringBuilder();
       cipher.init(Cipher.DECRYPT_MODE, key, spec);
-
+      String decryptedCipherText;
       try (
-              FileInputStream fileInputStream = new FileInputStream("encryptedFile.enc");
-              CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher)
+        FileInputStream fileInputStream = new FileInputStream(fileName);
+        CipherInputStream cipherInputStream = new CipherInputStream(fileInputStream, cipher);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
       ) {
         byte[] buffer = new byte[8192];
-        while (cipherInputStream.read(buffer) > 0) {
-          stringBuilder.append(new String(buffer, StandardCharsets.UTF_8));
+        int nread;
+        while ((nread = cipherInputStream.read(buffer)) > 0) {
+          byteArrayOutputStream.write(buffer, 0, nread);
         }
+        byteArrayOutputStream.flush();
+        decryptedCipherText = new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
       }
-      // TODO trim() should not be needed!
-      String decryptedCipherText = stringBuilder.toString().trim();
-      LOGGER.log(Level.INFO, decryptedCipherText);
 
+      LOGGER.log(Level.INFO, decryptedCipherText);
       LOGGER.log(Level.INFO,
               () -> String.format("Decrypted file content and original plain text are the same: %b",
                       decryptedCipherText.compareTo(plainText) == 0)
       );
+      return decryptedCipherText.compareTo(plainText) == 0;
     } catch (NoSuchAlgorithmException |
             NoSuchPaddingException |
             InvalidKeyException |
@@ -100,7 +115,13 @@ public class ExampleFileEncryptionInOneMethod {
             InvalidKeySpecException |
             IOException e) {
       LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
+      return false;
     }
+  }
+
+
+  public static void main(String[] args) {
+    demonstrateFileEncryption("encryptedFile.enc","Multiline text:\nMultiline text:\n",null );
   }
 
 }

@@ -37,42 +37,54 @@ public class EncryptionInOneMethodTests {
   }
 
   @Test
-  public void testStringEncryptionPasswordBasedMain() throws IOException {
-    ExampleStringEncryptionPasswordBasedInOneMethod.main(new String[1]);
+  public void testStringEncryptionPasswordBased() throws IOException {
+    ExampleStringEncryptionPasswordBased.main(new String[1]);
     assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
     errContent.flush();
-    assertTrue(ExampleStringEncryptionPasswordBasedInOneMethod.demonstratePasswordBasedSymmetricEncryption("plaintext",null));
+    assertTrue(ExampleStringEncryptionPasswordBased.demonstratePasswordBasedSymmetricEncryption("plaintext",null));
     assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
   }
 
   @Test
-  public void testStringEncryptionKeyBasedMain() {
-    ExampleStringEncryptionKeyBasedInOneMethod.main(new String[1]);
+  public void testStringEncryptionKeyBased() throws IOException {
+    ExampleStringEncryptionKeyBased.main(new String[1]);
+    assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
+    errContent.flush();
+    assertTrue(ExampleStringEncryptionKeyBased.demonstrateKeyBasedSymmetricEncryption("plaintext"));
     assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
   }
 
   @Test
-  public void testAsymmetricStringEncryptionMain() {
-    ExampleAsymmetricStringEncryptionInOneMethod.main(new String[1]);
+  public void testAsymmetricStringEncryption() {
+    ExampleAsymmetricStringEncryption.main(new String[1]);
     assertThat(errContent.toString(), containsString("Decrypted and original plain text are the same: true"));
   }
 
   @Test
-  public void testFileEncryptionMain() {
-    ExampleFileEncryptionInOneMethod.main(new String[1]);
+  public void testFileEncryption() throws IOException {
+    ExampleFileEncryption.main(new String[1]);
+    assertThat(errContent.toString(), containsString("Decrypted file content and original plain text are the same: true"));
+    errContent.flush();
+    assertTrue(ExampleFileEncryption.demonstrateFileEncryption("file.enc", "plaintext", null));
     assertThat(errContent.toString(), containsString("Decrypted file content and original plain text are the same: true"));
   }
 
   @Test
-  public void testHashMain() {
-    ExampleHashInOneMethod.main(new String[1]);
+  public void testHash() throws IOException {
+    ExampleHash.main(new String[1]);
     // uses string: "Text that should be authenticated by comparing the hash of it!"
+    assertThat(errContent.toString(), containsString("jg0X629+SmdP0/LTHZV/3zXBrizM3/hptRZVIuTXSCtyaqAe0NB8KMld2qebBIXFS1yowCUpCPu93l/fPmKEXg=="));
+    errContent.flush();
+    assertTrue(ExampleHash.demonstrateHash("plaintext"));
     assertThat(errContent.toString(), containsString("jg0X629+SmdP0/LTHZV/3zXBrizM3/hptRZVIuTXSCtyaqAe0NB8KMld2qebBIXFS1yowCUpCPu93l/fPmKEXg=="));
   }
 
   @Test
-  public void testSignatureMain() {
-    ExampleSignatureInOneMethod.main(new String[1]);
+  public void testSignature() throws IOException {
+    ExampleSignature.main(new String[1]);
+    assertThat(errContent.toString(), containsString("Signature is correct: true"));
+    errContent.flush();
+    assertTrue(ExampleSignature.demonstrateSignature("plainText"));
     assertThat(errContent.toString(), containsString("Signature is correct: true"));
   }
 

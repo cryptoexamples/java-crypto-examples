@@ -24,7 +24,7 @@ current_reviews: [
 
 ]
 # Indicates when this example was last updated/created. Reviews don't change this.
-last_updated: "2018-05-13"
+last_updated: "2018-08-02"
 tags: [Java, AES, GCM, Salt, AEAD]
 ---
 
@@ -33,7 +33,11 @@ tags: [Java, AES, GCM, Salt, AEAD]
 - Random key generation
 - String encryption
 
-## Sample Code for Java based symmetric encryption using AES-GCM and generation of keys
+## Java version
+
+- JDK 11
+
+## Example Code for Java String Encryption with key generation using AES-GCM
 
 ```java
 {% include_relative src/main/java/com/cryptoexamples/java/ExampleStringEncryptionKeyBasedInOneMethod.java %}

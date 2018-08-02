@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Changed class names to conform with guidelines
+- Added demonstrate-methods for all examples
+- Corrected meta format for file encryption example
+
+### Fixed
+
+- Added missing UTF-8 encoding in assymetric encryption example
+- Fixed file encryption not needing trim anymore
+- Fixed Headings according to guidlines
+- Fixed import statements not expclicit in file encryption example
+
 ## [0.3.0] - 2018-07-18
 
 ### Changed

@@ -9,17 +9,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for hashing of a string in one method.
+ * Example for hashing of a string in one method.
  * - SHA-512
  * - BASE64 encoding as representation for the byte-arrays
  * - UTF-8 encoding of String
  * - Exception handling
  */
-public class ExampleHashInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger(ExampleHashInOneMethod.class.getName());
+public class ExampleHash {
+  private static final Logger LOGGER = Logger.getLogger(ExampleHash.class.getName());
 
-  public static void main(String[] args) {
-    String plainText = "Text that should be authenticated by comparing the hash of it!";
+  /**
+   * Demonstrational method that hashes the plainText.
+   * @param plainText
+   * @return true if hashing was successful, false otherwise
+   */
+  public static boolean demonstrateHash(String plainText) {
     try {
       // Get MessageDigest Instance
       MessageDigest messageDigest = MessageDigest.getInstance("SHA-512");
@@ -31,8 +35,14 @@ public class ExampleHashInOneMethod {
       String hashString = Base64.getEncoder().encodeToString(hashBytes);
 
       LOGGER.log(Level.INFO, hashString);
+      return true;
     } catch (NoSuchAlgorithmException e) {
       LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
+      return false;
     }
+  }
+
+  public static void main(String[] args) {
+    demonstrateHash("Text that should be authenticated by comparing the hash of it!");
   }
 }

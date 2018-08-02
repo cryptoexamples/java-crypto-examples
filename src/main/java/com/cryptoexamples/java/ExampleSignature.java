@@ -12,18 +12,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for cryptographic signing of a string in one method.
+ * Example for cryptographic signing of a string in one method.
  * - Generation of public and private RSA 4096 bit keypair
  * - SHA-512 with RSA
  * - BASE64 encoding as representation for the byte-arrays
  * - UTF-8 encoding of String
  * - Exception handling
  */
-public class ExampleSignatureInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger(ExampleSignatureInOneMethod.class.getName());
+public class ExampleSignature {
+  private static final Logger LOGGER = Logger.getLogger(ExampleSignature.class.getName());
 
-  public static void main(String[] args) {
-    String plainText = "Text that should be signed to prevent unknown tampering with its content.";
+  /**
+   * Demonstrational method that signs the plainText using a newly generated keypair.
+   * @param plainText
+   * @return true if signing and verification were successful, false otherwise
+   */
+  public static boolean demonstrateSignature(String plainText) {
     try {
       // GENERATE NEW KEYPAIR
       KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
@@ -46,8 +50,15 @@ public class ExampleSignatureInOneMethod {
 
       boolean isSignatureCorrect = signature.verify(Base64.getDecoder().decode(signatureForPlainTextString));
       LOGGER.log(Level.INFO, () -> String.format("Signature is correct: %b", isSignatureCorrect));
+      return isSignatureCorrect;
     } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
       LOGGER.log(Level.SEVERE, e.getLocalizedMessage());
+      return false;
     }
+  }
+
+  public static void main(String[] args) {
+    demonstrateSignature("Text that should be signed to prevent unknown tampering with its content.");
+
   }
 }

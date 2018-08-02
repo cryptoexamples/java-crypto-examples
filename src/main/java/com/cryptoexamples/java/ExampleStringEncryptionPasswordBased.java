@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * All in one example for encryption and decryption of a string in one method.
+ * Example for encryption and decryption of a string in one method.
  * - Random password generation using strong secure random number generator
  * - Random salt generation
  * - Key derivation using PBKDF2 HMAC SHA-512,
@@ -32,14 +32,14 @@ import java.util.logging.Logger;
  * - UTF-8 encoding of Strings
  * - Exception handling
  */
-public class ExampleStringEncryptionPasswordBasedInOneMethod {
-  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionPasswordBasedInOneMethod.class.getName());
+public class ExampleStringEncryptionPasswordBased {
+  private static final Logger LOGGER = Logger.getLogger(ExampleStringEncryptionPasswordBased.class.getName());
 
   /**
    * Demonstrational method that encrypts the plainText using a password (that is used to derive the required key).
    * @param plainText
    * @param password
-   * @return true if encryption and decryption is working, false otherwise
+   * @return true if encryption and decryption were successful, false otherwise
    */
   public static boolean demonstratePasswordBasedSymmetricEncryption(String plainText, String password) {
     try {

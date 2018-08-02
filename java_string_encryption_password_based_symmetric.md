@@ -24,7 +24,7 @@ current_reviews: [
 
 ]
 # Indicates when this example was last updated/created. Reviews don't change this.
-last_updated: "2018-05-13"
+last_updated: "2018-08-02"
 tags: [Java, AES, GCM, PBKDF2, Salt, AEAD]
 ---
 
@@ -32,9 +32,12 @@ tags: [Java, AES, GCM, PBKDF2, Salt, AEAD]
 
 - Password based encryption
 - Previously shared common secret (password)
-- 
 
-## Sample Code for Java based symmetric encryption using AES-GCM and PBKDF2
+## Java version
+
+- JDK 11
+
+## Example Code for Java Password Based String Encryption using AES-GCM and PBKDF2
 
 ```java
 {% include_relative src/main/java/com/cryptoexamples/java/ExampleStringEncryptionPasswordBasedInOneMethod.java %}

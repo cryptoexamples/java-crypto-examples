@@ -24,7 +24,7 @@ current_reviews: [
 
 ]
 # Indicates when this example was last updated/created. Reviews don't change this.
-last_updated: "2018-05-13"
+last_updated: "2018-08-02"
 tags: [Java, hash, SHA, SHA-512]
 ---
 
@@ -32,7 +32,11 @@ tags: [Java, hash, SHA, SHA-512]
 
 - Verifying if a string has been changed
 
-## Sample Code for Java based hashing of a String using SHA-512, BASE64 and UTF-8 encoding
+## Java version
+
+- JDK 11
+
+## Example Code for Java String Hashing using SHA-512, BASE64 and UTF-8 encoding
 
 ```java
 {% include_relative src/main/java/com/cryptoexamples/java/ExampleHashInOneMethod.java %}
