@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.4.0] - 2018-08-02
+
 ### Changed
 
 - Changed class names to conform with guidelines
@@ -93,7 +95,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - made some security relevant changes
 - made other security relevant changes
 
-[Unreleased]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.1.0...v0.1.1
