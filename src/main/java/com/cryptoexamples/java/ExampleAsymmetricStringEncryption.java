@@ -34,7 +34,7 @@ public class ExampleAsymmetricStringEncryption {
       KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
       // ENCRYPTION
-      Cipher cipher = Cipher.getInstance("RSA/None/OAEPWithSHA-256AndMGF1Padding");
+      Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
       cipher.init(Cipher.ENCRYPT_MODE, keyPair.getPublic());
 
       byte[] cipherTextBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
