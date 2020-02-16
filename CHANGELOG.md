@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.4.2] - 2020-02-16
+
+### Changed
+
+- Changed gradle version to 6.1.1
+- Changed used jdks in travis
+
 ## [0.4.1] - 2018-08-02
 
 ### Fixed
@@ -101,7 +108,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - made some security relevant changes
 - made other security relevant changes
 
-[Unreleased]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/cryptoexamples/java-crypto-examples/compare/v0.2.0...v0.3.0
