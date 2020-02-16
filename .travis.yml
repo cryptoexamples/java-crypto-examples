@@ -7,6 +7,10 @@ jdk:
   - openjdk11
   - oraclejdk13
   - openjdk13
+  #- oraclejdk14
+  #- openjdk14
+  #- oraclejdk15
+  #- openjdk15
 addons:
   sonarcloud:
     organization: "kmindi-github" # the key of the org you chose at step #3

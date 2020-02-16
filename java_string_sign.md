@@ -24,7 +24,7 @@ current_reviews: [
 
 ]
 # Indicates when this example was last updated/created. Reviews don't change this.
-last_updated: "2018-08-02"
+last_updated: "2020-02-16"
 tags: [Java, hash, SHA, SHA-512]
 ---
 
@@ -34,7 +34,13 @@ tags: [Java, hash, SHA, SHA-512]
 
 ## Java version
 
-- JDK 11
+- openjdk8
+- oraclejdk9
+- openjdk9
+- oraclejdk11
+- openjdk11
+- oraclejdk13
+- openjdk13
 
 ## Example Code for Java String Signing using SHA-512, RSA 4096, BASE64 and UTF-8 encoding
 
